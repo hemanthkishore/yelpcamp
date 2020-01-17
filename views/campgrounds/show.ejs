@@ -1,12 +1,13 @@
 <%- include('../partials/header') %>
 
-<h1>This is a show template</h1>
+<h1> <%= campground.name %> </h1>
 
 <img src="<%= campground.image %>">
 
+<p> <%= campground.description %> </p>
+
 <p>
-    <%= campground.name %>
-    <%= campground.description %>
+    <a class="btn btn-success" href="/campgrounds/<%= campground._id%>/comments/new">Add New Comment</a>
 </p>
 
 <% campground.comments.forEach(comment => { %>
