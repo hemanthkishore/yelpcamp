@@ -3,7 +3,8 @@
         "app.js",
         "views/",
         "./models",
-        "./routes"
+        "./routes",
+        "./public"
     ],
     "ext": "ejs, css, js"
 }

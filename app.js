@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    path = require('path'),
     seedDB = require('./seeds');
 
 // Routes
@@ -22,7 +23,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 // Routes middleware
 app.use('/campgrounds', campgroundRouter);
-
+// set the public directory
+app.use(express.static(path.join(__dirname, '/public')));
 // Set the View engine
 app.set('view engine', 'ejs');
 
