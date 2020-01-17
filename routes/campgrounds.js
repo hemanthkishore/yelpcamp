@@ -42,7 +42,8 @@ router.get('/new', (req, res) => {
 // route to dispaly a new campground id
 router.get('/:id', async (req, res) => {
     try {
-        let campground = await Campground.findById(req.params.id);
+        let campground = await Campground.findById(req.params.id).populate('comments').exec();
+        console.log(campground);
         res.render('../views/campgrounds/show.ejs', { campground });
     } catch (error) {
         res.render({ 'success': false })

@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    seedDB = require('./seeds');
 
 // Routes
 const campgroundRouter = require('./routes/campgrounds');
@@ -10,6 +11,9 @@ require('dotenv').config();
 
 // connect to mongoose
 mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// seed the database
+// seedDB();
 
 // Express app
 const app = express();

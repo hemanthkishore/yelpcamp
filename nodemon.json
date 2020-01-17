@@ -1,7 +1,9 @@
 {
     "watch": [
         "app.js",
-        "views/"
+        "views/",
+        "./models",
+        "./routes"
     ],
     "ext": "ejs, css, js"
 }
