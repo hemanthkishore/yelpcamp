@@ -2,11 +2,14 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose');
 
+// Routes
+const campgroundRouter = require('./routes/campgrounds');
+
 // get the environment variables
 require('dotenv').config();
 
-// Routes
-const campgrounds = require('./routes/campgrounds');
+// connect to mongoose
+mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Express app
 const app = express();
@@ -14,15 +17,18 @@ const app = express();
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 // Routes middleware
-app.use('/campgrounds', campgrounds);
+app.use('/campgrounds', campgroundRouter);
 
 // Set the View engine
 app.set('view engine', 'ejs');
 
-
 app.get('/', (req, res) => {
     res.render('landing');
 });
+
+app.get('/health-check', (req, res) => {
+    res.send("Working");
+})
 
 // Start the app
 app.listen(process.env.PORT, () => {

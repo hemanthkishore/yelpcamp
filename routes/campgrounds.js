@@ -7,7 +7,6 @@ const router = express.Router();
 
 // default campground page
 router.get('/', async (req, res) => {
-    console.log("Inside")
     try {
         let allCampgrounds = await Campground.find({});
         res.render('../views/campgrounds/index.ejs', { campGrounds: allCampgrounds });
