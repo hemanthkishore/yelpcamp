@@ -10,7 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="/stylesheets/main.css"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    </script>
 </head>
 
 <body>
@@ -22,9 +23,13 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/">Login</a></li>
-                    <li><a href="/">SignUp</a></li>
-                    <li><a href="/">Logout</a></li>
+                    <%if (!currentUser) {%>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">SignUp</a></li>
+                    <% }else { %>
+                    <li><a href="#">Signed In As <%= currentUser.username %></a> </li>
+                    <li><a href="/logout">Logout</a></li>
+                    <% }%>
                 </ul>
             </div>
         </div>

@@ -2,13 +2,22 @@ const express = require('express');
 
 // models
 const Campground = require('../models/campgrounds');
-const Comment = require('../models/comment');
 
 const router = express.Router();
+
+// middleware functions
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+
+    res.redirect('/login');
+}
 
 // default campground page
 router.get('/', async (req, res) => {
     try {
+        console.log(req.user);
         let allCampgrounds = await Campground.find({});
         res.render('../views/campgrounds/index.ejs', { campGrounds: allCampgrounds });
     } catch (error) {
@@ -51,32 +60,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// route to create a new comment
-router.get('/:id/comments/new', async (req, res) => {
-    try {
-        let campground = await Campground.findById(req.params.id);
-        res.render('../views/comments/new.ejs', { campground });
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-router.post('/:id/comments', async (req, res)=>{
-    try {
-        let campground = await Campground.findById(req.params.id);
-        // create a comment
-        let comment = await Comment.create(req.body.comment);
-        
-        campground.comments.push(comment);
-        await campground.save();
-
-        res.redirect(`/campgrounds/${campground._id}`);
-
-    } catch (error) {
-        console.log(error);
-        res.redirect('/campgrounds');
-    }
-}); 
 
 
 module.exports = router;
