@@ -9,7 +9,7 @@ const router = express.Router();
 // auth routes
 router.get('/register', (req, res) => {
     // res.send("Testing")
-    console.log("Inside");
+    // console.log("Inside");
     // res.render('./views/campgrounds/index.ejs');
     res.render('register');
 });

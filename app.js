@@ -64,7 +64,7 @@ function isLoggedIn(req, res, next) {
 }
 
 app.use(function (req, res, next) {
-    console.log(req.user);
+    // console.log(req.user);
     res.locals.currentUser = req.user;
     next();
 })

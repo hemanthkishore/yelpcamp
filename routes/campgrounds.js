@@ -17,7 +17,7 @@ function isLoggedIn(req, res, next) {
 // default campground page
 router.get('/', async (req, res) => {
     try {
-        console.log(req.user);
+        // console.log(req.user);
         let allCampgrounds = await Campground.find({});
         res.render('../views/campgrounds/index.ejs', { campGrounds: allCampgrounds });
     } catch (error) {
@@ -27,16 +27,21 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new campground
-router.post('/', (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
     // get data from form and add to campground array
     // redirect back to campground page
 
     let name = req.body.name;
     let image = req.body.image;
     let description = req.body.description;
+    let author = {
+        id: req.user._id,
+        username: req.user.username
+    }
 
     // campGrounds.push({ name, image });
-    Campground.create({ name, image, description }).then(campground => {
+    Campground.create({ name, image, description, author }).then(campground => {
+        // add the author
         res.redirect('/campgrounds');
     }).catch(error => {
         res.send({ 'success': 'false' });
@@ -45,7 +50,7 @@ router.post('/', (req, res) => {
 });
 
 // new page to add campground
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('../views/campgrounds/new.ejs');
 });
 
@@ -53,7 +58,7 @@ router.get('/new', (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         let campground = await Campground.findById(req.params.id).populate('comments').exec();
-        // console.log(campground);
+        // console.log(campground.author);
         res.render('../views/campgrounds/show.ejs', { campground });
     } catch (error) {
         res.render({ 'success': false })

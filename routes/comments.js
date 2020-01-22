@@ -30,10 +30,12 @@ router.post('/', isLoggedIn, async (req, res) => {
         let campground = await Campground.findById(req.params.id);
         // create a comment
         let comment = await Comment.create(req.body.comment);
-
+        comment.author.id = req.user._id;
+        comment.author.username = req.user.username;
+        await comment.save();
         campground.comments.push(comment);
         await campground.save();
-
+        console.log("comment", comment);
         res.redirect(`/campgrounds/${campground._id}`);
 
     } catch (error) {
