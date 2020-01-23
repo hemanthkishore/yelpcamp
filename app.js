@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const path = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const methodOverride = require('method-override');
 const seedDB = require('./seeds');
+
 
 // Routes
 const campgroundRouter = require('./routes/campgrounds');
@@ -29,6 +31,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 // set the public directory
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(methodOverride('_method'));
 // Set the View engine
 app.set('view engine', 'ejs');
 
@@ -49,26 +52,6 @@ app.use(function (req, res, next) {
     next();
 });
 
-// Routes middleware
-app.use(authRouter);
-app.use('/campgrounds', campgroundRouter);
-app.use('/campgrounds/:id/comments', commentRouter);
-
-// middleware functions
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-
-    res.redirect('/login');
-}
-
-app.use(function (req, res, next) {
-    // console.log(req.user);
-    res.locals.currentUser = req.user;
-    next();
-})
-
 app.get('/', (req, res) => {
     res.render('landing');
 });
@@ -78,6 +61,20 @@ app.get('/health-check', (req, res) => {
     console.log(req.user);
     res.send("Working");
 });
+
+// Routes middleware
+app.use('/', authRouter);
+app.use('/campgrounds', campgroundRouter);
+app.use('/campgrounds/:id/comments', commentRouter);
+
+// End of Routers
+
+app.use(function(req, res, next) {
+    // const error = new Error("Request not Found 404");
+    // error.status = 404;
+    // next(error);
+    res.status(404).send("<h1>404 Status Not Found</h1>")
+})
 
 
 // Start the app
