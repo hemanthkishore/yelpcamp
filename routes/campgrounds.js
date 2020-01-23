@@ -23,7 +23,7 @@ function checkCampgroundOwnership(req, res, next) {
             if (error) {
                 res.redirect('back');
             } else {
-                if (campground.author.id.equals(currentUser._id)) {
+                if (campground.author.id.equals(req.user._id)) {
                     // res.render('campgrounds/edit', { campground });
                     next()
                 } else {
