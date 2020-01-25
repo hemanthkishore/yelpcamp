@@ -17,7 +17,8 @@ let campgroundSchema = new mongoose.Schema({
             ref: "User"
         },
         "username": String
-    }
+    },
+    price: String
 });
 
 let Campground = mongoose.model('Campground', campgroundSchema);

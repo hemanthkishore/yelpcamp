@@ -27,13 +27,14 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
     let name = req.body.name;
     let image = req.body.image;
     let description = req.body.description;
+    let price = req.body.price;
     let author = {
         id: req.user._id,
         username: req.user.username
     }
 
     // campGrounds.push({ name, image });
-    Campground.create({ name, image, description, author }).then(campground => {
+    Campground.create({ name, image, description, author, price }).then(campground => {
         // add the author
         res.redirect('/campgrounds');
     }).catch(error => {
