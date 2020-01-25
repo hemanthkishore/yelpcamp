@@ -4,7 +4,8 @@
         "views/",
         "./models",
         "./routes",
-        "./public"
+        "./public",
+        "./middleware"
     ],
     "ext": "ejs, css, js"
 }

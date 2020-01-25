@@ -5,6 +5,7 @@ const path = require('path');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const methodOverride = require('method-override');
+const connectFlash = require('connect-flash');
 const seedDB = require('./seeds');
 
 
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // set the public directory
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(methodOverride('_method'));
+app.use(connectFlash());
 // Set the View engine
 app.set('view engine', 'ejs');
 
@@ -49,6 +51,8 @@ app.use(passport.session());
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
@@ -69,7 +73,7 @@ app.use('/campgrounds/:id/comments', commentRouter);
 
 // End of Routers
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     // const error = new Error("Request not Found 404");
     // error.status = 404;
     // next(error);
